@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\WebSite_GioiThieuSP\\WebSite_GioiThieuSP.csproj": {}
+    "D:\\WebSiteBanHang\\WebSite_GioiThieuSP.csproj": {}
   },
   "projects": {
-    "d:\\WebSite_GioiThieuSP\\WebSite_GioiThieuSP.csproj": {
+    "D:\\WebSiteBanHang\\WebSite_GioiThieuSP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\WebSite_GioiThieuSP\\WebSite_GioiThieuSP.csproj",
+        "projectUniqueName": "D:\\WebSiteBanHang\\WebSite_GioiThieuSP.csproj",
         "projectName": "WebSite_GioiThieuSP",
-        "projectPath": "d:\\WebSite_GioiThieuSP\\WebSite_GioiThieuSP.csproj",
+        "projectPath": "D:\\WebSiteBanHang\\WebSite_GioiThieuSP.csproj",
         "packagesPath": "C:\\Users\\SV\\.nuget\\packages\\",
-        "outputPath": "d:\\WebSite_GioiThieuSP\\obj\\",
+        "outputPath": "D:\\WebSiteBanHang\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

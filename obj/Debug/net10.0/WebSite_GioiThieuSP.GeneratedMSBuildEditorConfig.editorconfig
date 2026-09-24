@@ -20,41 +20,53 @@ build_property.TargetFrameworkVersion = v10.0
 build_property.EntryPointFilePath = 
 build_property.RootNamespace = WebSite_GioiThieuSP
 build_property.RootNamespace = WebSite_GioiThieuSP
-build_property.ProjectDir = d:\WebSite_GioiThieuSP\
+build_property.ProjectDir = D:\WebSiteBanHang\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 10.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = d:\WebSite_GioiThieuSP
+build_property.MSBuildProjectDirectory = D:\WebSiteBanHang
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[d:/WebSite_GioiThieuSP/Views/Home/Index.cshtml]
+[D:/WebSiteBanHang/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/WebSite_GioiThieuSP/Views/Home/Privacy.cshtml]
+[D:/WebSiteBanHang/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/WebSite_GioiThieuSP/Views/Shared/Error.cshtml]
+[D:/WebSiteBanHang/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/WebSite_GioiThieuSP/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/WebSiteBanHang/Views/Shared/_Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb290ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/WebSiteBanHang/Views/Shared/_Header.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9IZWFkZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/WebSiteBanHang/Views/Shared/_TopDiscount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ub3BEaXNjb3VudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/WebSiteBanHang/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/WebSite_GioiThieuSP/Views/_ViewImports.cshtml]
+[D:/WebSiteBanHang/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/WebSite_GioiThieuSP/Views/_ViewStart.cshtml]
+[D:/WebSiteBanHang/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/WebSite_GioiThieuSP/Views/Shared/_Layout.cshtml]
+[D:/WebSiteBanHang/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-okwiqk8qne
