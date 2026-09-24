@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebSite_GioiThieuSP</title>
+    <script type="importmap"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    
+    <link rel="stylesheet" href="~/admin/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/admin/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="~/admin/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/admin/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="~/admin/css/metisMenu.min.css"/>
+    <link rel="stylesheet" href="~/admin/css/morris.css"/>
+    <link rel="stylesheet" href="~/admin/css/startmin.css"/>
+    <link rel="stylesheet" href="~/admin/css/timeline.css"/>
+    
+</head>
+<body>
+ 
+ 
+    <partial name="_Navbar"/>
+    <partial name="_Sidebar"/>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+  
+
+    <script src="~/admin/js/bootstrap.min.js"></script>
+    <script src="~/admin/js/flot-data.js"></script>
+    <script src="~/admin/js/jequery.min.js"></script>
+    <script src="~/admin/js/metisMenu.min.js"></script>
+    <script src="~/admin/js/morris.min.js"></script>
+    <script src="~/admin/js/morris-data.js"></script>
+    <script src="~/admin/js/raphael.min.js"></script>
+    <script src="~/admin/js/startmin.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
