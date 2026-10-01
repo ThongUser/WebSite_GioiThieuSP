@@ -6,17 +6,7 @@ using WebSite_GioiThieuSP.Models;
 
 namespace WebSite_GioiThieuSP.Controllers
 {
-    /// <summary>
-    /// Storefront controller for customers (NO [Area]).
-    /// The admin part lives in Areas/Admin/Controllers/ProductController.cs
-    ///
-    /// Maps the 5 pages of the Karl template:
-    ///   /                          -> Index          (karl/index.html)
-    ///   /Product/Shop              -> Shop           (karl/shop.html)
-    ///   /Product/ProductDetails/5  -> ProductDetails (karl/product-details.html)
-    ///   /Product/Cart              -> Cart           (karl/cart.html)
-    ///   /Product/Checkout          -> Checkout       (karl/checkout.html)
-    /// </summary>
+    
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _db;

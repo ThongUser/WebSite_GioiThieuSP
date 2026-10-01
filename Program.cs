@@ -24,6 +24,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 
@@ -39,6 +40,36 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "store-home-html",
+    pattern: "index.html",
+    defaults: new { controller = "Product", action = "Index" });
+
+app.MapControllerRoute(
+    name: "store-shop-html",
+    pattern: "shop.html",
+    defaults: new { controller = "Product", action = "Shop" });
+
+app.MapControllerRoute(
+    name: "store-product-details-html",
+    pattern: "product-details.html",
+    defaults: new { controller = "Product", action = "ProductDetails" });
+
+app.MapControllerRoute(
+    name: "store-cart-html",
+    pattern: "cart.html",
+    defaults: new { controller = "Product", action = "Cart" });
+
+app.MapControllerRoute(
+    name: "store-checkout-html",
+    pattern: "checkout.html",
+    defaults: new { controller = "Product", action = "Checkout" });
+
+app.MapControllerRoute(
+    name: "store-checkout-legacy-html",
+    pattern: "checkout-1.html",
+    defaults: new { controller = "Product", action = "Checkout" });
 
 app.MapControllerRoute(
     name: "default",
