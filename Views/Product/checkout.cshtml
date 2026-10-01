@@ -1,0 +1,129 @@
+@model WebSite_GioiThieuSP.Models.CheckoutViewModel
+@{
+    ViewData["Title"] = "Checkout";
+    var cartItems = ViewBag.CartItems as List<CartItem> ?? new List<CartItem>();
+    var cartTotal = ViewBag.CartTotal ?? 0m;
+}
+
+<!-- ****** Checkout Area Start ****** -->
+<div class="checkout_area section_padding_100">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 col-md-6">
+                <div class="checkout_details_area mt-50 clearfix">
+
+                    <div class="cart-page-heading">
+                        <h5>Billing Address</h5>
+                        <p>Enter your billing information</p>
+                    </div>
+
+                    <form asp-controller="Product" asp-action="Checkout" method="post" id="checkout-form">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label asp-for="CustomerName">Full Name <span>*</span></label>
+                                <input asp-for="CustomerName" type="text" class="form-control" required>
+                                <span asp-validation-for="CustomerName" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label asp-for="PhoneNumber">Phone Number <span>*</span></label>
+                                <input asp-for="PhoneNumber" type="text" class="form-control" required>
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label asp-for="Address">Delivery Address <span>*</span></label>
+                                <input asp-for="Address" type="text" class="form-control mb-3" required>
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <label asp-for="Note">Notes</label>
+                                <textarea asp-for="Note" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-5 ml-lg-auto">
+                <div class="order-details-confirmation">
+
+                    <div class="cart-page-heading">
+                        <h5>Your Order</h5>
+                        <p>The Details</p>
+                    </div>
+
+                    <ul class="order-details-form mb-4">
+                        <li><span>Product</span> <span>Total</span></li>
+                        @foreach (var item in cartItems)
+                        {
+                            <li><span>@item.ProductName (@item.Quantity x $@item.Price.ToString("N2"))</span> <span>$@item.Total.ToString("N2")</span></li>
+                        }
+                        <li><span>Subtotal</span> <span>$@cartTotal.ToString("N2")</span></li>
+                        <li><span>Shipping</span> <span>Free</span></li>
+                        <li><span><strong>Total</strong></span> <span><strong>$@cartTotal.ToString("N2")</strong></span></li>
+                    </ul>
+
+                    <div id="accordion" role="tablist" class="mb-4">
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <h6 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><i class="fa fa-circle-o mr-3"></i>Paypal</a>
+                                </h6>
+                            </div>
+
+                            <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingTwo">
+                                <h6 class="mb-0">
+                                    <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-circle-o mr-3"></i>Cash on delivery</a>
+                                </h6>
+                            </div>
+                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>Pay with cash upon delivery.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingThree">
+                                <h6 class="mb-0">
+                                    <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><i class="fa fa-circle-o mr-3"></i>Credit card</a>
+                                </h6>
+                            </div>
+                            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>Pay with your credit card.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingFour">
+                                <h6 class="mb-0">
+                                    <a class="collapsed" data-toggle="collapse" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour"><i class="fa fa-circle-o mr-3"></i>Direct bank transfer</a>
+                                </h6>
+                            </div>
+                            <div id="collapseFour" class="collapse show" role="tabpanel" aria-labelledby="headingFour" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p>Make your payment directly into our bank account.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" form="checkout-form" class="btn karl-checkout-btn">Place Order</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- ****** Checkout Area End ****** -->
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

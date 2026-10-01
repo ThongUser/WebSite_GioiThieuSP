@@ -3151,11 +3151,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ASP.NETCORE\\WebSiteBanHang\\WebSite_GioiThieuSP.csproj",
+      "projectUniqueName": "D:\\ASP.NETCORE\\WebSite_GioiThieuSP\\WebSite_GioiThieuSP.csproj",
       "projectName": "WebSite_GioiThieuSP",
-      "projectPath": "D:\\ASP.NETCORE\\WebSiteBanHang\\WebSite_GioiThieuSP.csproj",
+      "projectPath": "D:\\ASP.NETCORE\\WebSite_GioiThieuSP\\WebSite_GioiThieuSP.csproj",
       "packagesPath": "C:\\Users\\THONG\\.nuget\\packages\\",
-      "outputPath": "D:\\ASP.NETCORE\\WebSiteBanHang\\obj\\",
+      "outputPath": "D:\\ASP.NETCORE\\WebSite_GioiThieuSP\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

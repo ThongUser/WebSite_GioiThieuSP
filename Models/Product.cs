@@ -28,6 +28,16 @@ namespace WebSite_GioiThieuSP.Models
         [Display(Name = "Danh mục")]
         public int CategoryId { get; set; }
         public bool IsActive { get; set; } = true;
+
+        [NotMapped]
+        public int ProductId => Id;
+
+        [NotMapped]
+        public string ProductName => Name;
+
+        [NotMapped]
+        public string Image => ImageUrl ?? string.Empty;
+
         [ForeignKey("CategoryId")]
         public Category? Category { get; set; }
     }

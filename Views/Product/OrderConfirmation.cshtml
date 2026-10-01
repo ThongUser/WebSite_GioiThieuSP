@@ -1,0 +1,57 @@
+@model WebSite_GioiThieuSP.Models.Order
+@{
+    ViewData["Title"] = "Order Confirmation";
+}
+
+<!-- ****** Order Confirmation Area Start ****** -->
+<div class="checkout_area section_padding_100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="order-confirmation text-center">
+                    <div class="cart-page-heading mb-30">
+                        <h5>Thank you for your order!</h5>
+                        <p>Your order has been placed successfully.</p>
+                    </div>
+
+                    <div class="order-details-box text-left mt-50">
+                        <h6>Order Information</h6>
+                        <ul class="order-details-form mb-4">
+                            <li><span>Order ID:</span> <span>#@Model.OrderId</span></li>
+                            <li><span>Order Date:</span> <span>@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</span></li>
+                            <li><span>Customer Name:</span> <span>@Model.CustomerName</span></li>
+                            <li><span>Phone Number:</span> <span>@Model.PhoneNumber</span></li>
+                            <li><span>Address:</span> <span>@Model.Address</span></li>
+                            <li><span>Note:</span> <span>@(string.IsNullOrEmpty(Model.Note) ? "N/A" : Model.Note)</span></li>
+                            <li><span>Status:</span> <span>@Model.Status</span></li>
+                        </ul>
+
+                        <h6>Order Details</h6>
+                        <ul class="order-details-form mb-4">
+                            <li><span>Product</span> <span>Quantity</span> <span>Price</span> <span>Total</span></li>
+                            @foreach (var detail in Model.OrderDetails)
+                            {
+                                <li>
+                                    <span>@detail.Product?.ProductName</span>
+                                    <span>@detail.Quantity</span>
+                                    <span>$@detail.UnitPrice.ToString("N2")</span>
+                                    <span>$@(detail.Quantity * detail.UnitPrice).ToString("N2")</span>
+                                </li>
+                            }
+                            <li>
+                                <span><strong>Total</strong></span>
+                                <span></span>
+                                <span></span>
+                                <span><strong>$@Model.OrderDetails.Sum(d => d.Quantity * d.UnitPrice).ToString("N2")</strong></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="text-center mt-30">
+                        <a href="@Url.Action("Index", "Product")" class="btn karl-btn">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebSite_GioiThieuSP.Models
 {
@@ -21,7 +22,12 @@ namespace WebSite_GioiThieuSP.Models
 
         [Display(Name = "Trạng thái")]
         public bool IsActive { get; set; } = true;
-        // ----------------------------------------
+
+        [NotMapped]
+        public int CategoryId => Id;
+
+        [NotMapped]
+        public string CategoryName => Name;
 
         public ICollection<Product>? Products { get; set; }
     }

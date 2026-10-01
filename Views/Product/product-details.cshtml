@@ -1,0 +1,194 @@
+@{
+    var product = ViewBag.Product as Product;
+    var categories = ViewBag.Categories as IEnumerable<Category> ?? Enumerable.Empty<Category>();
+    var relatedProducts = ViewBag.RelatedProducts as IEnumerable<Product> ?? Enumerable.Empty<Product>();
+
+    if (product == null)
+    {
+        <div class="container section_padding_100">
+            <p class="text-center">Product not found.</p>
+        </div>
+        return;
+    }
+
+    var mainImage = ProductViewHelper.ResolveImage(Url, ProductViewHelper.GetFirstImage(product.Image), 0);
+    var detailsUrl = Url.Action("ProductDetails", "Product", new { id = product.ProductId });
+    var categoryName = product.Category?.CategoryName ?? "Products";
+}
+
+<!-- <<<<<<<<<<<<<<<<<<<< Breadcumb Area Start <<<<<<<<<<<<<<<<<<<< -->
+<div class="breadcumb_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <ol class="breadcrumb d-flex align-items-center">
+                    <li class="breadcrumb-item"><a asp-controller="Product" asp-action="Index">Home</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="Product" asp-action="Shop" asp-route-categoryId="@product.CategoryId">@categoryName</a></li>
+                    <li class="breadcrumb-item active">@product.ProductName</li>
+                </ol>
+                <!-- btn -->
+                <a asp-controller="Product" asp-action="Shop" asp-route-categoryId="@product.CategoryId" class="backToHome d-block"><i class="fa fa-angle-double-left"></i> Back to Category</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <<<<<<<<<<<<<<<<<<<< Breadcumb Area End <<<<<<<<<<<<<<<<<<<< -->
+
+<!-- <<<<<<<<<<<<<<<<<<<< Single Product Details Area Start >>>>>>>>>>>>>>>>>>>>>>>>> -->
+<section class="single_product_details_area section_padding_0_100">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 col-md-6">
+                <div class="single_product_thumb">
+                    <div class="product-main-img">
+                        <img class="d-block w-100" src="@mainImage" alt="@product.ProductName">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="single_product_desc">
+
+                    <h4 class="title"><a href="@detailsUrl">@product.ProductName</a></h4>
+
+                    <h4 class="price">$@ProductViewHelper.Price(product.Price)</h4>
+
+                    <p class="available">Available: <span class="text-muted">In Stock</span></p>
+
+                    <div class="single_product_ratings mb-15">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                    </div>
+
+                    <p class="description mb-30">@(string.IsNullOrWhiteSpace(product.Description) ? "This product description is being updated." : product.Description)</p>
+
+                    <div class="widget size mb-50">
+                        <h6 class="widget-title">Size</h6>
+                        <div class="widget-desc">
+                            <ul>
+                                <li><a href="#">32</a></li>
+                                <li><a href="#">34</a></li>
+                                <li><a href="#">36</a></li>
+                                <li><a href="#">38</a></li>
+                                <li><a href="#">40</a></li>
+                                <li><a href="#">42</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Add to Cart Form -->
+                    <form asp-controller="Product" asp-action="AddToCart" method="post" class="cart clearfix mb-50 d-flex">
+                        <input type="hidden" name="productId" value="@product.ProductId" />
+                        <div class="quantity">
+                            <span class="qty-minus"
+                                  onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i
+                                class="fa fa-minus" aria-hidden="true"></i></span>
+                                <input type="number" class="qty-text" id="qty" step="1" min="1" max="12" name="quantity"
+                                       value="1">
+                                <span class="qty-plus"
+                                      onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i
+                                    class="fa fa-plus" aria-hidden="true"></i></span>
+                                </div>
+                                <button type="submit" class="btn cart-submit d-block">Add to cart</button>
+                                </form>
+
+                                <div id="accordion" role="tablist">
+                                    <div class="card">
+                                        <div class="card-header" role="tab" id="headingOne">
+                                            <h6 class="mb-0">
+                                                <a data-toggle="collapse" href="#collapseOne" aria-expanded="true"
+                                                   aria-controls="collapseOne">Information</a>
+                                            </h6>
+                                        </div>
+
+                                        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne"
+                                             data-parent="#accordion">
+                                            <div class="card-body">
+                                                <p>@(string.IsNullOrWhiteSpace(product.Description) ? "This product description is being updated." : product.Description)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" role="tab" id="headingTwo">
+                                            <h6 class="mb-0">
+                                                <a class="collapsed" data-toggle="collapse" href="#collapseTwo"
+                                                   aria-expanded="false" aria-controls="collapseTwo">Cart Details</a>
+                                            </h6>
+                                        </div>
+
+                                        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo"
+                                             data-parent="#accordion">
+                                            <div class="card-body">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo quis in
+                                                    veritatis officia inventore, tempore provident dignissimos nemo, nulla quaerat.
+                                                    Quibusdam non, eos, voluptatem reprehenderit hic nam! Laboriosam, sapiente!
+                                                    Praesentium.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" role="tab" id="headingThree">
+                                            <h6 class="mb-0">
+                                                <a class="collapsed" data-toggle="collapse" href="#collapseThree"
+                                                   aria-expanded="false" aria-controls="collapseThree">shipping &amp; Returns</a>
+                                            </h6>
+                                        </div>
+
+                                        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree"
+                                             data-parent="#accordion">
+                                            <div class="card-body">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicingelit. Esse quo sint
+                                                    repudiandae suscipit ab soluta delectus voluptate, vero vitae, tempore maxime
+                                                    rerum iste dolorem mollitia perferendis distinctio.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- <<<<<<<<<<<<<<<<<<<< Single Product Details Area End >>>>>>>>>>>>>>>>>>>>>>>>> -->
+
+                    <!-- ****** Related Products Area Start ****** -->
+                    @if (relatedProducts.Any())
+                    {
+                        <section class="you_may_like_area clearfix">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="section_heading text-center">
+                                            <h2>Related Products</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @foreach (var item in relatedProducts)
+                                    {
+                                        var relImg = ProductViewHelper.ResolveImage(Url, item.Image, item.ProductId);
+                                        var relUrl = Url.Action("ProductDetails", "Product", new { id = item.ProductId });
+
+                                        <div class="col-12 col-sm-6 col-md-3">
+                                            <div class="single_gallery_item">
+                                                <div class="product-img">
+                                                    <a href="@relUrl">
+                                                        <img src="@relImg" alt="@item.ProductName">
+                                                    </a>
+                                                </div>
+                                                <div class="product-description">
+                                                    <h4 class="product-price">$@ProductViewHelper.Price(item.Price)</h4>
+                                                    <p><a href="@relUrl">@item.ProductName</a></p>
+                                                    <a asp-controller="Product" asp-action="AddToCart" asp-route-productId="@item.ProductId" asp-route-quantity="1" class="add-to-cart-btn">ADD TO CART</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </section>
+                    }
+                    <!-- ****** Related Products Area End ****** -->

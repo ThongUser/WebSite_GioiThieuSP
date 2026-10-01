@@ -29,6 +29,21 @@ public class Order
     [Required, StringLength(50)]
     public string Status { get; set; } = OrderStatuses.Pending;
 
+    [NotMapped]
+    public int OrderId => Id;
+
+    [NotMapped]
+    public DateTime OrderDate => CreatedAt;
+
+    [NotMapped]
+    public string PhoneNumber => Phone;
+
+    [NotMapped]
+    public string Address => ShippingAddress;
+
+    [NotMapped]
+    public ICollection<OrderDetail> OrderDetails => Items;
+
     public ICollection<OrderDetail> Items { get; set; } = new List<OrderDetail>();
 }
 
