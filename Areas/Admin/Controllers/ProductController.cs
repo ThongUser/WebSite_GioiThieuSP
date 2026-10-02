@@ -1,119 +1,201 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebSite_GioiThieuSP.Data;
 using WebSite_GioiThieuSP.Models;
 
-namespace WebSite_GioiThieuSP.Areas.Admin.Controllers;
-
-[Area("Admin")]
-public class ProductController : Controller
+namespace WebSite_GioiThieuSP.Areas.Admin.Controllers
 {
-	private readonly ApplicationDbContext _db;
+    [Area("Admin")]
+    [Authorize(AuthenticationSchemes = "AdminCookie")]
+    public class ProductController : Controller
+    {
+        private readonly ApplicationDbContext _db;
 
-	public ProductController(ApplicationDbContext db)
-	{
-		_db = db;
-	}
+        public ProductController(ApplicationDbContext db)
+        {
+            _db = db;
+        }
 
-	public async Task<IActionResult> Index()
-	{
-		var products = await _db.Products
-			.AsNoTracking()
-			.Include(product => product.Category)
-			.OrderByDescending(product => product.Id)
-			.ToListAsync();
+        // GET: /Admin/Product - Danh sách sản phẩm
+        public async Task<IActionResult> Index(string? search, int? categoryId, decimal? minPrice, decimal? maxPrice)
+        {
+            var query = _db.Products.AsNoTracking().AsQueryable();
 
-		return View(products);
-	}
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var keyword = search.Trim();
+                query = query.Where(p => p.Name.Contains(keyword)
+                    || (p.Description != null && p.Description.Contains(keyword)));
+            }
 
-	public async Task<IActionResult> Create()
-	{
-		await LoadCategoriesAsync();
-		return View(new Product());
-	}
+            if (categoryId is > 0)
+            {
+                var catId = categoryId.Value;
+                query = query.Where(p => p.CategoryId == catId);
+            }
 
-	[HttpPost]
-	[ValidateAntiForgeryToken]
-	public async Task<IActionResult> Create(Product product)
-	{
-		if (!ModelState.IsValid)
-		{
-			await LoadCategoriesAsync(product.CategoryId);
-			return View(product);
-		}
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => p.Price >= minPrice.Value);
+            }
 
-		_db.Products.Add(product);
-		await _db.SaveChangesAsync();
-		return RedirectToAction(nameof(Index));
-	}
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => p.Price <= maxPrice.Value);
+            }
 
-	public async Task<IActionResult> Edit(int id)
-	{
-		var product = await _db.Products.FindAsync(id);
-		if (product == null)
-		{
-			return NotFound();
-		}
+            var products = await query
+                .Include(p => p.Category)
+                .OrderByDescending(p => p.Id)
+                .ToListAsync();
 
-		await LoadCategoriesAsync(product.CategoryId);
-		return View(product);
-	}
+            ViewBag.Search = search;
+            ViewBag.CategoryId = categoryId;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
+            await FillCategoryList();
 
-	[HttpPost]
-	[ValidateAntiForgeryToken]
-	public async Task<IActionResult> Edit(int id, Product input)
-	{
-		if (id != input.Id)
-		{
-			return NotFound();
-		}
+            return View(products);
+        }
 
-		if (!ModelState.IsValid)
-		{
-			await LoadCategoriesAsync(input.CategoryId);
-			return View(input);
-		}
+        // GET: /Admin/Product/Create
+        public async Task<IActionResult> Create()
+        {
+            await FillCategoryList();
+            return View(new Product());
+        }
 
-		var product = await _db.Products.FindAsync(id);
-		if (product == null)
-		{
-			return NotFound();
-		}
+        // POST: /Admin/Product/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Product product)
+        {
+            product.Name = (product.Name ?? string.Empty).Trim();
 
-		product.Name = input.Name;
-		product.Price = input.Price;
-		product.Description = input.Description;
-		product.ImageUrl = input.ImageUrl;
-		product.CategoryId = input.CategoryId;
-		product.IsActive = input.IsActive;
+            if (ModelState.IsValid)
+            {
+                _db.Products.Add(product);
+                await _db.SaveChangesAsync();
+                TempData["Success"] = "Thêm sản phẩm thành công!";
+                return RedirectToAction(nameof(Index));
+            }
 
-		await _db.SaveChangesAsync();
-		return RedirectToAction(nameof(Index));
-	}
+            await FillCategoryList(product.CategoryId);
+            return View(product);
+        }
 
-	[HttpPost]
-	[ValidateAntiForgeryToken]
-	public async Task<IActionResult> Delete(int id)
-	{
-		var product = await _db.Products.FindAsync(id);
-		if (product != null)
-		{
-			_db.Products.Remove(product);
-			await _db.SaveChangesAsync();
-		}
+        // GET: /Admin/Product/Edit/5
+        public async Task<IActionResult> Edit(int id)
+        {
+            var product = await _db.Products
+                .AsNoTracking()
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-		return RedirectToAction(nameof(Index));
-	}
+            if (product == null)
+            {
+                return NotFound();
+            }
 
-	private async Task LoadCategoriesAsync(int? selectedCategoryId = null)
-	{
-		var categories = await _db.Categories
-			.AsNoTracking()
-			.Where(category => category.IsActive)
-			.OrderBy(category => category.Name)
-			.ToListAsync();
+            await FillCategoryList();
+            return View(product);
+        }
 
-		ViewData["CategoryId"] = new SelectList(categories, nameof(Category.Id), nameof(Category.Name), selectedCategoryId);
-	}
+        // POST: /Admin/Product/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Product product)
+        {
+            if (id != product.Id)
+            {
+                return NotFound();
+            }
+
+            var existing = await _db.Products.FindAsync(id);
+            if (existing == null)
+            {
+                return NotFound();
+            }
+
+            product.Name = (product.Name ?? string.Empty).Trim();
+
+            if (ModelState.IsValid)
+            {
+                existing.Name = product.Name;
+                existing.CategoryId = product.CategoryId;
+                existing.Price = product.Price;
+                existing.Description = product.Description;
+                existing.ImageUrl = product.ImageUrl;
+                existing.IsActive = product.IsActive;
+                await _db.SaveChangesAsync();
+
+                TempData["Success"] = "Cập nhật sản phẩm thành công!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            product.Category = await _db.Categories
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == product.CategoryId);
+
+            await FillCategoryList(product.CategoryId);
+            return View(product);
+        }
+
+        // GET: /Admin/Product/Delete/5
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _db.Products
+                .AsNoTracking()
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.OrderCount = await _db.OrderDetails.CountAsync(od => od.ProductId == id);
+            return View(product);
+        }
+
+        // POST: /Admin/Product/Delete/5
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var product = await _db.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            // Sản phẩm đã có trong đơn hàng thì không cho xóa
+            if (await _db.OrderDetails.AnyAsync(od => od.ProductId == id))
+            {
+                TempData["Error"] = "Sản phẩm đã có trong đơn hàng, không thể xóa!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            _db.Products.Remove(product);
+            await _db.SaveChangesAsync();
+
+            TempData["Success"] = "Xóa sản phẩm thành công!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Đổ danh mục vào ViewBag dùng cho thẻ <select>
+        private async Task FillCategoryList(int? selectedCategoryId = null)
+        {
+            var categories = await _db.Categories
+                .AsNoTracking()
+                .Where(category => category.IsActive)
+                .OrderBy(category => category.Name)
+                .ToListAsync();
+
+            ViewData["CategoryId"] = new SelectList(categories, nameof(Category.Id), nameof(Category.Name), selectedCategoryId);
+        }
+    }
 }

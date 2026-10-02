@@ -1,12 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebSite_GioiThieuSP.Areas.Admin.Controllers;
-
-[Area("Admin")]
-public class DashboardController : Controller
+namespace WebSite_GioiThieuSP.Areas.Admin.Controllers
 {
-    public IActionResult Index()
+    [Area("Admin")]
+    [Authorize(AuthenticationSchemes = "AdminCookie")]
+    public class DashboardController : Controller
     {
-        return View();
+        public IActionResult Index()
+        {
+            return View();
+        }
     }
 }

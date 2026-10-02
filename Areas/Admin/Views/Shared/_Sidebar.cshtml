@@ -1,104 +1,61 @@
- <aside class="sidebar navbar-default" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
-                        <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+@{
+    // _Sidebar is rendered by _Layout (OUTSIDE #wrapper, same as the Karl template),
+    // so the categories have to come from ViewBag which the controller passes down.
+    // Pages that do not set ViewBag.Categories (Cart, Checkout) fall back to a plain Shop link.
+    var categories = ViewBag.Categories as IEnumerable<Category> ?? Enumerable.Empty<Category>();
+    var currentCategoryId = ViewBag.CurrentCategoryId as int?;
+    var currentProductId = (ViewBag.Product as Product)?.ProductId;
+}
+<div class="catagories-side-menu">
+    <!-- Close Icon -->
+    <div id="sideMenuClose">
+        <i class="ti-close"></i>
+    </div>
+    <!--  Side Nav  -->
+    <div class="nav-side-menu">
+        <div class="menu-list">
+            <h6>Categories</h6>
+            <ul id="menu-content" class="menu-content collapse out">
+                @if (categories.Any())
+                {
+                    var first = true;
+                    foreach (var cat in categories)
+                    {
+                        // unique collapse target id, even when the name has accents/spaces
+                        var target = $"side-cat-{cat.CategoryId}";
+                        // The category being viewed opens by default, the rest stay closed.
+                        var isOpen = cat.CategoryId == currentCategoryId || (currentCategoryId == null && first);
+                        var state = isOpen ? "collapsed active" : "collapsed";
+                        first = false;
+
+                        <li data-toggle="collapse" data-target="@target" class="@state">
+                            <a asp-controller="Product" asp-action="Shop" asp-route-categoryId="@cat.CategoryId">
+                                @cat.CategoryName <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu collapse @(isOpen ? "show" : "")" id="@target">
+                                @* Products of the category, taken from ViewBag.Products when on the shop page *@
                                 <li>
-                                    <a href="flot.html">Flot Charts</a>
+                                    <a asp-controller="Product" asp-action="Shop" asp-route-categoryId="@cat.CategoryId">
+                                        View All @cat.CategoryName
+                                    </a>
                                 </li>
-                                <li>
-                                    <a href="morris.html">Morris.js Charts</a>
-                                </li>
+                                @if (currentProductId.HasValue)
+                                {
+                                    <li>
+                                        <a asp-controller="Product" asp-action="ProductDetails" asp-route-id="@currentProductId.Value">
+                                            Current Product
+                                        </a>
+                                    </li>
+                                }
                             </ul>
-                            <!-- /.nav-second-level -->
                         </li>
-                        <li>
-                            <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-                        </li>
-                        <li>
-                            <a asp-area="Admin" asp-controller="Product" asp-action="Index"><i class="fa fa-shopping-bag fa-fw"></i> Products</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="panels-wells.html">Panels and Wells</a>
-                                </li>
-                                <li>
-                                    <a href="buttons.html">Buttons</a>
-                                </li>
-                                <li>
-                                    <a href="notifications.html">Notifications</a>
-                                </li>
-                                <li>
-                                    <a href="typography.html">Typography</a>
-                                </li>
-                                <li>
-                                    <a href="icons.html"> Icons</a>
-                                </li>
-                                <li>
-                                    <a href="grid.html">Grid</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul>
-                                    <!-- /.nav-third-level -->
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="blank.html" class="active">Blank Page</a>
-                                </li>
-                                <li>
-                                    <a href="login.html">Login Page</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                    </ul>
-                </div>
-            </aside>
+                    }
+                }
+                else
+                {
+                    <li><a asp-controller="Product" asp-action="Shop">Shop</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
