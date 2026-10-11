@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebSite_GioiThieuSP")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04a2dcbaa196a92f64b2e41532135963b15ea06e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f66e8dfc1fff8c6f8b4a945790551c134ec72800")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebSite_GioiThieuSP")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebSite_GioiThieuSP")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
